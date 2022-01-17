@@ -1,4 +1,4 @@
-// Подключение VimeoPlayer и Lodash.trottle
+// Подключение Lodash.trottle
 import throttle from 'lodash.throttle';
 
 //Находим элементы form, input, textarea
