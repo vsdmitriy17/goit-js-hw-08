@@ -5,6 +5,7 @@ import throttle from 'lodash.throttle';
 const formEl = document.querySelector('.feedback-form');
 const inputEl = document.querySelector('.feedback-form input');
 const textareaEl = document.querySelector('.feedback-form textarea');
+const btnEl = document.querySelector('button');
 
 //Объект значений полей формы
 const formState = { email: '', message: '' };
@@ -12,6 +13,7 @@ const formState = { email: '', message: '' };
 const STORAGE_KEY = 'feedback-form-state';
 
 populateFormState();
+btnDisable();
 
 //Слушатели событий
 formEl.addEventListener('submit', onFormSubmit);
@@ -24,6 +26,7 @@ textareaEl.addEventListener('input', throttle(onTextareaChange, 500));
 function onInputChange(evt) {
     formState.email = evt.currentTarget.value;
     localStorage.setItem(STORAGE_KEY, JSON.stringify(formState));
+    btnDisable();
 };
 
 //Ф-ция:
@@ -32,6 +35,7 @@ function onInputChange(evt) {
 function onTextareaChange(evt) {
     formState.message = evt.currentTarget.value;
     localStorage.setItem(STORAGE_KEY, JSON.stringify(formState));
+    btnDisable();
 };
 
 //Ф-ция:
@@ -44,6 +48,7 @@ function onFormSubmit(evt) {
     console.log(JSON.parse(localStorage.getItem(STORAGE_KEY)));
     evt.currentTarget.reset();
     localStorage.removeItem(STORAGE_KEY);
+    btnDisable();
 };
 
 //Ф-ция:
@@ -59,6 +64,11 @@ function populateFormState() {
         inputEl.value = feedback.email;
         textareaEl.value = feedback.message;
     };
+};
+
+//Ф-ция отключает кнопку, если хотябы одно поле формы - не заполнено
+function btnDisable() {
+    btnEl.disabled = inputEl.value === "" || textareaEl.value === "";
 };
 
 
